@@ -11,19 +11,15 @@
   <!-- Favicon con emoji de herramienta -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔧</text></svg>">
   <style> 
-
 /* Estilos para la barra de navegación que se ocultará/mostrará */
 .mobile-navbar {
+    display: none; /* Oculta la barra por completo al inicio */
     position: fixed; /* Para que se mantenga en la parte superior */
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000; /* Asegura que esté por encima de otros elementos */
     background: #1a1a1a; /* El color de fondo que prefieras */
-    opacity: 0; /* Lo hace invisible */
-    visibility: hidden; /* Lo oculta para evitar interacciones */
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-    transform: translateY(-100%); /* Lo saca de la pantalla por arriba */
     padding: 10px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
@@ -31,9 +27,11 @@
 
 /* Estilo para cuando se muestra la barra (se activa con JavaScript) */
 .mobile-navbar.scrolled {
+    display: block; /* Muestra la barra */
     opacity: 1; /* Lo hace visible */
     visibility: visible;
     transform: translateY(0); /* Lo vuelve a su posición original */
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 }
 
   .suggestion-form {
@@ -1194,15 +1192,11 @@
       }
     });
   });
-  // Espera a que el contenido de la página se cargue
-document.addEventListener('DOMContentLoaded', () => {
-    // ... (el código de Firebase que ya tienes) ...
-
+ document.addEventListener('DOMContentLoaded', () => {
     const navbar = document.getElementById('mobile-navbar');
     const scrollThreshold = 100; // La cantidad de píxeles que el usuario debe bajar
 
     window.addEventListener('scroll', () => {
-        // Verifica si la posición del scroll es mayor que el umbral
         if (window.scrollY > scrollThreshold) {
             navbar.classList.add('scrolled'); // Añade la clase para mostrar la barra
         } else {
