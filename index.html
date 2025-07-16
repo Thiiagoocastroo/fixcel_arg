@@ -13,7 +13,7 @@
   <style> 
 /* Estilos para la barra de navegación que se ocultará/mostrará */
 .mobile-navbar {
-    display: none; /* Oculta la barra por completo al inicio */
+    display: none !important; /* Oculta la barra por completo, sin importar otros estilos */
     position: fixed; /* Para que se mantenga en la parte superior */
     top: 0;
     left: 0;
@@ -23,14 +23,21 @@
     padding: 10px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    /* Estas propiedades ya no son tan necesarias con display: none,
+       pero las mantendremos para evitar cualquier conflicto. */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-100%);
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 }
 
 /* Estilo para cuando se muestra la barra (se activa con JavaScript) */
 .mobile-navbar.scrolled {
-    display: block; /* Muestra la barra */
+    display: block !important; /* Muestra la barra, sin importar otros estilos */
     opacity: 1; /* Lo hace visible */
     visibility: visible;
     transform: translateY(0); /* Lo vuelve a su posición original */
+    /* La transición se activa con la clase scrolled */
     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 }
 
@@ -1192,15 +1199,15 @@
       }
     });
   });
- document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const navbar = document.getElementById('mobile-navbar');
-    const scrollThreshold = 100; // La cantidad de píxeles que el usuario debe bajar
+    const scrollThreshold = 100;
 
     window.addEventListener('scroll', () => {
         if (window.scrollY > scrollThreshold) {
-            navbar.classList.add('scrolled'); // Añade la clase para mostrar la barra
+            navbar.classList.add('scrolled');
         } else {
-            navbar.classList.remove('scrolled'); // Quita la clase para ocultar la barra
+            navbar.classList.remove('scrolled');
         }
     });
 });
