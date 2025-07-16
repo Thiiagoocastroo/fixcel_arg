@@ -1171,6 +1171,7 @@
   const container = document.getElementById('suggestions-container');
   const suggestionsRef = ref(database, 'sugerencias');
 
+  // Lógica para enviar la sugerencia a Firebase
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const suggestionText = input.value;
@@ -1184,85 +1185,62 @@
     }
   });
 
- // ... (Todo el código de Firebase, incluyendo initializeApp, getAnalytics, getDatabase, etc.) ...
-// ... (La lógica para enviar sugerencias 'form.addEventListener' que ya tienes) ...
+  // Lógica para mostrar las sugerencias con paginación
+  const RESPONSES_PER_PAGE = 3;
+  let allSuggestions = [];
+  let displayedCount = 0;
 
-const container = document.getElementById('suggestions-container'); // Asegúrate de que esta línea esté antes de usar 'container'
-const suggestionsRef = ref(database, 'sugerencias'); // Asegúrate de que esta línea esté antes de usar 'suggestionsRef'
+  function renderSuggestions() {
+      container.innerHTML = '';
+      const suggestionsToShow = allSuggestions.slice(0, displayedCount);
 
-const RESPONSES_PER_PAGE = 3; // Define cuántas respuestas se muestran inicialmente
-let allSuggestions = []; // Para almacenar todas las sugerencias cargadas
-let displayedCount = 0; // Para llevar un conteo de cuántas se muestran
-
-// Función para renderizar las sugerencias
-function renderSuggestions() {
-    container.innerHTML = ''; // Limpia el contenedor
-    const suggestionsToShow = allSuggestions.slice(0, displayedCount); // Obtiene solo las que se deben mostrar
-
-    suggestionsToShow.forEach(item => {
-        const suggestionDiv = document.createElement('div');
-        suggestionDiv.classList.add('suggestion-item');
-        suggestionDiv.innerHTML = `
-            <h4>Sugerencia del Cliente</h4>
-            <p>${item.sugerencia}</p>
-        `;
-        container.appendChild(suggestionDiv);
-
-        if (item.respuesta && item.respuesta.trim() !== '') {
-            const responseDiv = document.createElement('div');
-            responseDiv.classList.add('suggestion-item', 'neotec-response');
-            responseDiv.innerHTML = `
-                <h4>Respuesta de FixCel_ARG</h4>
-                <p>${item.respuesta}</p>
-            `;
-            container.appendChild(responseDiv);
-        }
-    });
-
-    // Añade el botón "Ver más" si hay más sugerencias para mostrar
-    if (displayedCount < allSuggestions.length) {
-        const loadMoreButton = document.createElement('button');
-        loadMoreButton.textContent = 'Ver todas las respuestas';
-        loadMoreButton.classList.add('load-more-button'); // Añade una clase para estilos
-        loadMoreButton.addEventListener('click', () => {
-            displayedCount = allSuggestions.length; // Muestra todas
-            renderSuggestions(); // Vuelve a renderizar
-        });
-        container.appendChild(loadMoreButton);
-    }
-}
-
-// Escucha los cambios en la base de datos
-onValue(suggestionsRef, (snapshot) => {
-    const data = snapshot.val();
-    allSuggestions = []; // Reinicia la lista de sugerencias
-
-    if (data) {
-        // Convierte el objeto de Firebase a un array y lo ordena por fecha descendente
-        allSuggestions = Object.values(data).sort((a, b) => {
-            return new Date(b.fecha) - new Date(a.fecha);
-        });
-    }
-
-    displayedCount = Math.min(RESPONSES_PER_PAGE, allSuggestions.length); // Muestra las primeras 3 o menos si no hay tantas
-    renderSuggestions(); // Renderiza las sugerencias iniciales
-});
-
-// ... (El código JavaScript para la barra de navegación que aparece al hacer scroll) ...
-        if (item.respuesta && item.respuesta.trim() !== '') {
-          const responseDiv = document.createElement('div');
-          responseDiv.classList.add('suggestion-item', 'neotec-response');
-          responseDiv.innerHTML = `
-            <h4>Respuesta de FixCel_ARG</h4>
-            <p>${item.respuesta}</p>
+      suggestionsToShow.forEach(item => {
+          const suggestionDiv = document.createElement('div');
+          suggestionDiv.classList.add('suggestion-item');
+          suggestionDiv.innerHTML = `
+              <h4>Sugerencia del Cliente</h4>
+              <p>${item.sugerencia}</p>
           `;
-          container.appendChild(responseDiv);
-        }
+          container.appendChild(suggestionDiv);
+
+          if (item.respuesta && item.respuesta.trim() !== '') {
+              const responseDiv = document.createElement('div');
+              responseDiv.classList.add('suggestion-item', 'neotec-response');
+              responseDiv.innerHTML = `
+                  <h4>Respuesta de FixCel_ARG</h4>
+                  <p>${item.respuesta}</p>
+              `;
+              container.appendChild(responseDiv);
+          }
       });
-    }
+
+      if (displayedCount < allSuggestions.length) {
+          const loadMoreButton = document.createElement('button');
+          loadMoreButton.textContent = 'Ver todas las respuestas';
+          loadMoreButton.classList.add('load-more-button');
+          loadMoreButton.addEventListener('click', () => {
+              displayedCount = allSuggestions.length;
+              renderSuggestions();
+          });
+          container.appendChild(loadMoreButton);
+      }
+  }
+
+  onValue(suggestionsRef, (snapshot) => {
+      const data = snapshot.val();
+      allSuggestions = [];
+
+      if (data) {
+          allSuggestions = Object.values(data).sort((a, b) => {
+              return new Date(b.fecha) - new Date(a.fecha);
+          });
+      }
+
+      displayedCount = Math.min(RESPONSES_PER_PAGE, allSuggestions.length);
+      renderSuggestions();
   });
 
-  // NUEVO CÓDIGO para la barra de navegación que aparece al hacer scroll
+  // Lógica para la barra de navegación que aparece al hacer scroll
   const navbar = document.getElementById('mobile-navbar');
   const scrollThreshold = 100;
 
