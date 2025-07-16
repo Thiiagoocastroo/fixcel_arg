@@ -11,6 +11,24 @@
   <!-- Favicon con emoji de herramienta -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔧</text></svg>">
   <style> 
+
+    .load-more-button {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    background: #667eea; /* Color similar al de tu botón de enviar pregunta */
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease;
+}
+
+.load-more-button:hover {
+    background: #505cbe;
+}
     
 .mobile-navbar {
     display: none !important; 
@@ -1166,19 +1184,71 @@
     }
   });
 
-  onValue(suggestionsRef, (snapshot) => {
-    const data = snapshot.val();
-    container.innerHTML = '';
-    if (data) {
-      Object.values(data).forEach(item => {
+ // ... (Todo el código de Firebase, incluyendo initializeApp, getAnalytics, getDatabase, etc.) ...
+// ... (La lógica para enviar sugerencias 'form.addEventListener' que ya tienes) ...
+
+const container = document.getElementById('suggestions-container'); // Asegúrate de que esta línea esté antes de usar 'container'
+const suggestionsRef = ref(database, 'sugerencias'); // Asegúrate de que esta línea esté antes de usar 'suggestionsRef'
+
+const RESPONSES_PER_PAGE = 3; // Define cuántas respuestas se muestran inicialmente
+let allSuggestions = []; // Para almacenar todas las sugerencias cargadas
+let displayedCount = 0; // Para llevar un conteo de cuántas se muestran
+
+// Función para renderizar las sugerencias
+function renderSuggestions() {
+    container.innerHTML = ''; // Limpia el contenedor
+    const suggestionsToShow = allSuggestions.slice(0, displayedCount); // Obtiene solo las que se deben mostrar
+
+    suggestionsToShow.forEach(item => {
         const suggestionDiv = document.createElement('div');
         suggestionDiv.classList.add('suggestion-item');
         suggestionDiv.innerHTML = `
-          <h4>Sugerencia del Cliente</h4>
-          <p>${item.sugerencia}</p>
+            <h4>Sugerencia del Cliente</h4>
+            <p>${item.sugerencia}</p>
         `;
         container.appendChild(suggestionDiv);
 
+        if (item.respuesta && item.respuesta.trim() !== '') {
+            const responseDiv = document.createElement('div');
+            responseDiv.classList.add('suggestion-item', 'neotec-response');
+            responseDiv.innerHTML = `
+                <h4>Respuesta de FixCel_ARG</h4>
+                <p>${item.respuesta}</p>
+            `;
+            container.appendChild(responseDiv);
+        }
+    });
+
+    // Añade el botón "Ver más" si hay más sugerencias para mostrar
+    if (displayedCount < allSuggestions.length) {
+        const loadMoreButton = document.createElement('button');
+        loadMoreButton.textContent = 'Ver todas las respuestas';
+        loadMoreButton.classList.add('load-more-button'); // Añade una clase para estilos
+        loadMoreButton.addEventListener('click', () => {
+            displayedCount = allSuggestions.length; // Muestra todas
+            renderSuggestions(); // Vuelve a renderizar
+        });
+        container.appendChild(loadMoreButton);
+    }
+}
+
+// Escucha los cambios en la base de datos
+onValue(suggestionsRef, (snapshot) => {
+    const data = snapshot.val();
+    allSuggestions = []; // Reinicia la lista de sugerencias
+
+    if (data) {
+        // Convierte el objeto de Firebase a un array y lo ordena por fecha descendente
+        allSuggestions = Object.values(data).sort((a, b) => {
+            return new Date(b.fecha) - new Date(a.fecha);
+        });
+    }
+
+    displayedCount = Math.min(RESPONSES_PER_PAGE, allSuggestions.length); // Muestra las primeras 3 o menos si no hay tantas
+    renderSuggestions(); // Renderiza las sugerencias iniciales
+});
+
+// ... (El código JavaScript para la barra de navegación que aparece al hacer scroll) ...
         if (item.respuesta && item.respuesta.trim() !== '') {
           const responseDiv = document.createElement('div');
           responseDiv.classList.add('suggestion-item', 'neotec-response');
