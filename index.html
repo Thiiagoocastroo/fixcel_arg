@@ -11,6 +11,24 @@
   <!-- Favicon con emoji de herramienta -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔧</text></svg>">
   <style> 
+    /* Puedes usar esta clase para el botón o la que ya tenías */
+.toggle-suggestions-button {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    background: #667eea; /* Color similar al de tu botón de enviar pregunta */
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease;
+}
+
+.toggle-suggestions-button:hover {
+    background: #505cbe;
+}
 
     .load-more-button {
     display: block;
@@ -1190,17 +1208,56 @@
   let allSuggestions = [];
   let displayedCount = 0;
 
-  function renderSuggestions() {
-      container.innerHTML = '';
-      const suggestionsToShow = allSuggestions.slice(0, displayedCount);
+  // ... (código anterior, incluyendo RESPONSES_PER_PAGE = 2, allSuggestions, displayedCount) ...
 
-      suggestionsToShow.forEach(item => {
-          const suggestionDiv = document.createElement('div');
-          suggestionDiv.classList.add('suggestion-item');
-          suggestionDiv.innerHTML = `
-              <h4>Sugerencia del Cliente</h4>
-              <p>${item.sugerencia}</p>
-          `;
+function renderSuggestions() {
+    container.innerHTML = ''; // Limpia el contenedor
+
+    const suggestionsToShow = allSuggestions.slice(0, displayedCount); // Obtiene solo las que se deben mostrar
+
+    suggestionsToShow.forEach(item => {
+        const suggestionDiv = document.createElement('div');
+        suggestionDiv.classList.add('suggestion-item');
+        suggestionDiv.innerHTML = `
+            <h4>Sugerencia del Cliente</h4>
+            <p>${item.sugerencia}</p>
+        `;
+        container.appendChild(suggestionDiv);
+
+        if (item.respuesta && item.respuesta.trim() !== '') {
+            const responseDiv = document.createElement('div');
+            responseDiv.classList.add('suggestion-item', 'neotec-response');
+            responseDiv.innerHTML = `
+                <h4>Respuesta de FixCel_ARG</h4>
+                <p>${item.respuesta}</p>
+            `;
+            container.appendChild(responseDiv);
+        }
+    });
+
+    // Lógica del botón "Ver más" / "Ver menos"
+    if (allSuggestions.length > RESPONSES_PER_PAGE) { // Solo muestra el botón si hay más de 1 respuestas
+        const toggleButton = document.createElement('button');
+        toggleButton.classList.add('toggle-suggestions-button'); // Añade una clase para estilos (puedes usar la misma 'load-more-button')
+
+        if (displayedCount < allSuggestions.length) {
+            // Mostrar "Ver todas las respuestas"
+            toggleButton.textContent = 'Ver todas las respuestas';
+            toggleButton.addEventListener('click', () => {
+                displayedCount = allSuggestions.length; // Muestra todas
+                renderSuggestions(); // Vuelve a renderizar
+            });
+        } else {
+            // Mostrar "Ver menos"
+            toggleButton.textContent = 'Ver menos';
+            toggleButton.addEventListener('click', () => {
+                displayedCount = RESPONSES_PER_PAGE; // Vuelve a mostrar solo las primeras 1
+                renderSuggestions(); // Vuelve a renderizar
+            });
+        }
+        container.appendChild(toggleButton);
+    }
+}
           container.appendChild(suggestionDiv);
 
           if (item.respuesta && item.respuesta.trim() !== '') {
