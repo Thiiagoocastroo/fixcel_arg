@@ -11,36 +11,30 @@
   <!-- Favicon con emoji de herramienta -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔧</text></svg>">
   <style> 
-/* Estilos para la barra de navegación que se ocultará/mostrará */
+    
 .mobile-navbar {
-    display: none !important; /* Oculta la barra por completo, sin importar otros estilos */
-    position: fixed; /* Para que se mantenga en la parte superior */
+    display: none !important; 
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
-    background: #1a1a1a; /* El color de fondo que prefieras */
+    z-index: 1000; 
+    background: #1a1a1a;
     padding: 10px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    /* Estas propiedades ya no son tan necesarias con display: none,
-       pero las mantendremos para evitar cualquier conflicto. */
     opacity: 0;
     visibility: hidden;
     transform: translateY(-100%);
     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 }
 
-/* Estilo para cuando se muestra la barra (se activa con JavaScript) */
 .mobile-navbar.scrolled {
-    display: block !important; /* Muestra la barra, sin importar otros estilos */
-    opacity: 1; /* Lo hace visible */
+    display: block !important;
+    opacity: 1;
     visibility: visible;
-    transform: translateY(0); /* Lo vuelve a su posición original */
-    /* La transición se activa con la clase scrolled */
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    transform: translateY(0);
 }
-
   .suggestion-form {
     display: flex;
     flex-direction: column;
@@ -922,7 +916,7 @@
   </style>
 </head>
 <body>
-  <nav id="mobile-navbar" class="mobile-navbar">
+ <nav id="mobile-navbar" class="mobile-navbar">
     <a href="#quienes-somos">Quiénes somos</a>
     <a href="#servicios">Servicios</a>
     <a href="#galeria">Galería</a>
@@ -1154,63 +1148,61 @@
   const database = getDatabase(app);
 
   // Lógica para enviar y mostrar sugerencias
-  document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('suggestion-form');
-    const input = document.getElementById('suggestion-input');
-    const container = document.getElementById('suggestions-container');
-    const suggestionsRef = ref(database, 'sugerencias');
+  const form = document.getElementById('suggestion-form');
+  const input = document.getElementById('suggestion-input');
+  const container = document.getElementById('suggestions-container');
+  const suggestionsRef = ref(database, 'sugerencias');
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const suggestionText = input.value;
-      if (suggestionText.trim() !== '') {
-        push(suggestionsRef, {
-          sugerencia: suggestionText,
-          fecha: new Date().toISOString(),
-          respuesta: ""
-        });
-        input.value = '';
-      }
-    });
-
-    onValue(suggestionsRef, (snapshot) => {
-      const data = snapshot.val();
-      container.innerHTML = '';
-      if (data) {
-        Object.values(data).forEach(item => {
-          const suggestionDiv = document.createElement('div');
-          suggestionDiv.classList.add('suggestion-item');
-          suggestionDiv.innerHTML = `
-            <h4>Sugerencia del Cliente</h4>
-            <p>${item.sugerencia}</p>
-          `;
-          container.appendChild(suggestionDiv);
-
-          if (item.respuesta && item.respuesta.trim() !== '') {
-            const responseDiv = document.createElement('div');
-            responseDiv.classList.add('suggestion-item', 'neotec-response');
-            responseDiv.innerHTML = `
-              <h4>Respuesta de FixCel_ARG</h4>
-              <p>${item.respuesta}</p>
-            `;
-            container.appendChild(responseDiv);
-          }
-        });
-      }
-    });
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const suggestionText = input.value;
+    if (suggestionText.trim() !== '') {
+      push(suggestionsRef, {
+        sugerencia: suggestionText,
+        fecha: new Date().toISOString(),
+        respuesta: ""
+      });
+      input.value = '';
+    }
   });
-document.addEventListener('DOMContentLoaded', () => {
-    const navbar = document.getElementById('mobile-navbar');
-    const scrollThreshold = 100;
 
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > scrollThreshold) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
+  onValue(suggestionsRef, (snapshot) => {
+    const data = snapshot.val();
+    container.innerHTML = '';
+    if (data) {
+      Object.values(data).forEach(item => {
+        const suggestionDiv = document.createElement('div');
+        suggestionDiv.classList.add('suggestion-item');
+        suggestionDiv.innerHTML = `
+          <h4>Sugerencia del Cliente</h4>
+          <p>${item.sugerencia}</p>
+        `;
+        container.appendChild(suggestionDiv);
+
+        if (item.respuesta && item.respuesta.trim() !== '') {
+          const responseDiv = document.createElement('div');
+          responseDiv.classList.add('suggestion-item', 'neotec-response');
+          responseDiv.innerHTML = `
+            <h4>Respuesta de FixCel_ARG</h4>
+            <p>${item.respuesta}</p>
+          `;
+          container.appendChild(responseDiv);
         }
-    });
-});
-</script>
+      });
+    }
+  });
+
+  // NUEVO CÓDIGO para la barra de navegación que aparece al hacer scroll
+  const navbar = document.getElementById('mobile-navbar');
+  const scrollThreshold = 100;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > scrollThreshold) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
+</script>¿
 </body>
 </html>
