@@ -1162,12 +1162,16 @@
     });
   </script>
 <script type="module">
-  // Importa las funciones necesarias de Firebase SDK
+  // ----------------------------------------------------
+  // --- CÓDIGO JAVASCRIPT COMPLETO Y UNIFICADO ---
+  // ----------------------------------------------------
+
+  // 1. IMPORTA los módulos de Firebase
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-analytics.js";
   import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
 
-  // Tu configuración de Firebase
+  // 2. CONFIGURACIÓN de tu proyecto Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyAN7pu97ipzKi_YityagwMkScbYSMwj9d4",
     authDomain: "fixxcel-arg.firebaseapp.com",
@@ -1178,18 +1182,16 @@
     measurementId: "G-08840NTD50"
   };
 
-  // Inicializa Firebase y la base de datos
+  // 3. INICIALIZA Firebase y la base de datos
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const database = getDatabase(app);
 
-  // Lógica para enviar y mostrar sugerencias
+  // 4. LÓGICA para enviar preguntas
   const form = document.getElementById('suggestion-form');
   const input = document.getElementById('suggestion-input');
-  const container = document.getElementById('suggestions-container');
   const suggestionsRef = ref(database, 'sugerencias');
 
-  // Lógica para enviar la sugerencia a Firebase
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const suggestionText = input.value;
@@ -1203,101 +1205,71 @@
     }
   });
 
-  // Lógica para mostrar las sugerencias con paginación
-  const RESPONSES_PER_PAGE = 1;
+  // 5. LÓGICA para mostrar las preguntas con PAGINACIÓN
+  const container = document.getElementById('suggestions-container');
+  const RESPONSES_PER_PAGE = 1; // Muestra solo 1 respuesta inicialmente
   let allSuggestions = [];
   let displayedCount = 0;
 
-  // ... (código anterior, incluyendo RESPONSES_PER_PAGE = 2, allSuggestions, displayedCount) ...
-
-function renderSuggestions() {
+  function renderSuggestions() {
     container.innerHTML = ''; // Limpia el contenedor
-
-    const suggestionsToShow = allSuggestions.slice(0, displayedCount); // Obtiene solo las que se deben mostrar
+    const suggestionsToShow = allSuggestions.slice(0, displayedCount);
 
     suggestionsToShow.forEach(item => {
-        const suggestionDiv = document.createElement('div');
-        suggestionDiv.classList.add('suggestion-item');
-        suggestionDiv.innerHTML = `
-            <h4>Sugerencia del Cliente</h4>
-            <p>${item.sugerencia}</p>
-        `;
-        container.appendChild(suggestionDiv);
+      const suggestionDiv = document.createElement('div');
+      suggestionDiv.classList.add('suggestion-item');
+      suggestionDiv.innerHTML = `
+        <h4>Sugerencia del Cliente</h4>
+        <p>${item.sugerencia}</p>
+      `;
+      container.appendChild(suggestionDiv);
 
-        if (item.respuesta && item.respuesta.trim() !== '') {
-            const responseDiv = document.createElement('div');
-            responseDiv.classList.add('suggestion-item', 'neotec-response');
-            responseDiv.innerHTML = `
-                <h4>Respuesta de FixCel_ARG</h4>
-                <p>${item.respuesta}</p>
-            `;
-            container.appendChild(responseDiv);
-        }
+      if (item.respuesta && item.respuesta.trim() !== '') {
+        const responseDiv = document.createElement('div');
+        responseDiv.classList.add('suggestion-item', 'neotec-response');
+        responseDiv.innerHTML = `
+          <h4>Respuesta de FixCel_ARG</h4>
+          <p>${item.respuesta}</p>
+        `;
+        container.appendChild(responseDiv);
+      }
     });
 
-    // Lógica del botón "Ver más" / "Ver menos"
-    if (allSuggestions.length > RESPONSES_PER_PAGE) { // Solo muestra el botón si hay más de 1 respuestas
-        const toggleButton = document.createElement('button');
-        toggleButton.classList.add('toggle-suggestions-button'); // Añade una clase para estilos (puedes usar la misma 'load-more-button')
-
-        if (displayedCount < allSuggestions.length) {
-            // Mostrar "Ver todas las respuestas"
-            toggleButton.textContent = 'Ver todas las respuestas';
-            toggleButton.addEventListener('click', () => {
-                displayedCount = allSuggestions.length; // Muestra todas
-                renderSuggestions(); // Vuelve a renderizar
-            });
-        } else {
-            // Mostrar "Ver menos"
-            toggleButton.textContent = 'Ver menos';
-            toggleButton.addEventListener('click', () => {
-                displayedCount = RESPONSES_PER_PAGE; // Vuelve a mostrar solo las primeras 1
-                renderSuggestions(); // Vuelve a renderizar
-            });
-        }
-        container.appendChild(toggleButton);
-    }
-}
-          container.appendChild(suggestionDiv);
-
-          if (item.respuesta && item.respuesta.trim() !== '') {
-              const responseDiv = document.createElement('div');
-              responseDiv.classList.add('suggestion-item', 'neotec-response');
-              responseDiv.innerHTML = `
-                  <h4>Respuesta de FixCel_ARG</h4>
-                  <p>${item.respuesta}</p>
-              `;
-              container.appendChild(responseDiv);
-          }
-      });
+    if (allSuggestions.length > RESPONSES_PER_PAGE) {
+      const toggleButton = document.createElement('button');
+      toggleButton.classList.add('load-more-button');
 
       if (displayedCount < allSuggestions.length) {
-          const loadMoreButton = document.createElement('button');
-          loadMoreButton.textContent = 'Ver todas las respuestas';
-          loadMoreButton.classList.add('load-more-button');
-          loadMoreButton.addEventListener('click', () => {
-              displayedCount = allSuggestions.length;
-              renderSuggestions();
-          });
-          container.appendChild(loadMoreButton);
+        toggleButton.textContent = 'Ver todas las respuestas';
+        toggleButton.addEventListener('click', () => {
+          displayedCount = allSuggestions.length;
+          renderSuggestions();
+        });
+      } else {
+        toggleButton.textContent = 'Ver menos';
+        toggleButton.addEventListener('click', () => {
+          displayedCount = RESPONSES_PER_PAGE;
+          renderSuggestions();
+        });
       }
+      container.appendChild(toggleButton);
+    }
   }
 
+  // Escucha los cambios en la base de datos
   onValue(suggestionsRef, (snapshot) => {
-      const data = snapshot.val();
-      allSuggestions = [];
-
-      if (data) {
-          allSuggestions = Object.values(data).sort((a, b) => {
-              return new Date(b.fecha) - new Date(a.fecha);
-          });
-      }
-
-      displayedCount = Math.min(RESPONSES_PER_PAGE, allSuggestions.length);
-      renderSuggestions();
+    const data = snapshot.val();
+    allSuggestions = [];
+    if (data) {
+      allSuggestions = Object.values(data).sort((a, b) => {
+        return new Date(b.fecha) - new Date(a.fecha);
+      });
+    }
+    displayedCount = Math.min(RESPONSES_PER_PAGE, allSuggestions.length);
+    renderSuggestions();
   });
 
-  // Lógica para la barra de navegación que aparece al hacer scroll
+  // 6. LÓGICA para la barra de navegación que aparece al hacer scroll
   const navbar = document.getElementById('mobile-navbar');
   const scrollThreshold = 100;
 
@@ -1308,6 +1280,6 @@ function renderSuggestions() {
       navbar.classList.remove('scrolled');
     }
   });
-</script>¿
+</script>
 </body>
 </html>
