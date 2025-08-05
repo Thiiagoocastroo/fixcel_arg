@@ -527,38 +527,38 @@
       font-size: 1.1rem;
       line-height: 1.7;
     }
-    
-    /* Galería de imágenes */
-   /* Galería de imágenes */
+  
+  /* Galería de imágenes (Código corregido y seguro) */
 .galeria-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
 }
 
 .imagen-item {
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
-      position: relative;
-      height: 200px; /* Restauramos la altura fija para que las imágenes se muestren */
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    position: relative;
+    /* Devolvemos la altura fija original para que la imagen se vea */
+    height: 200px; 
 }
 
 .imagen-item:hover {
-      transform: translateY(-5px);
+    transform: translateY(-5px);
 }
 
 .imagen-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
 }
 
 .imagen-item:hover img {
-      transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 .imagen-overlay {
@@ -581,7 +581,8 @@
     font-family: 'Inter', sans-serif;
     font-size: 1.2rem;
     font-weight: 700;
-    color: #ffffff; /* Este es el único cambio que hemos mantenido */
+    /* Esta es la corrección principal: el color del texto ahora es blanco */
+    color: #ffffff; 
     margin: 0;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
@@ -1251,6 +1252,7 @@ window.addEventListener('scroll', () => {
 </script>
 </body>
 </html>
+
 
 
 
