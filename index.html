@@ -31,13 +31,14 @@
   background: #505cbe;
 }
     
+/* Por defecto, la barra de navegación móvil está oculta */
 .mobile-navbar {
-    display: none !important; 
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000; 
+    z-index: 1000;
     background: #1a1a1a;
     padding: 10px;
     text-align: center;
@@ -48,11 +49,14 @@
     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 }
 
-.mobile-navbar.scrolled {
-    display: block !important;
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+/* Solo en pantallas pequeñas (móviles y tabletas), mostramos el menú */
+@media (max-width: 768px) {
+    .mobile-navbar.scrolled {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
 }
   .suggestion-form {
     display: flex;
@@ -1268,5 +1272,6 @@ window.addEventListener('scroll', () => {
 </script>
 </body>
 </html>
+
 
 
