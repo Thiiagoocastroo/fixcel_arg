@@ -482,12 +482,16 @@
     .caracteristica:nth-child(4)::before { content: '💰'; font-size: 30px; line-height: 60px; }
     
     /* Servicios */
-    .servicios {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 2rem;
-      margin-top: 2rem;
-    }
+
+    @media (max-width: 768px) {
+      
+   .servicios {
+    display: grid;
+    /* En pantallas grandes, usamos dos columnas. En móviles, se apilan. */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 2rem;
+    margin-top: 2rem;
+}
     
     .servicio-item {
       background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
@@ -1253,6 +1257,7 @@ window.addEventListener('scroll', () => {
 </script>
 </body>
 </html>
+
 
 
 
