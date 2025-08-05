@@ -482,8 +482,6 @@
     .caracteristica:nth-child(4)::before { content: '💰'; font-size: 30px; line-height: 60px; }
     
     /* Servicios */
-
-    @media (max-width: 768px) {
       
    .servicios {
     display: grid;
@@ -546,8 +544,9 @@
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     transition: transform 0.3s ease;
     position: relative;
-    /* Devolvemos la altura fija original para que la imagen se vea */
-    height: 200px; 
+    /* Devolvemos la altura fija para que se vea bien en escritorio */
+    height: 200px;
+    /* Eliminamos el aspect-ratio de aquí para que no se vea inmenso en escritorio */
 }
 
 .imagen-item:hover {
@@ -1257,6 +1256,7 @@ window.addEventListener('scroll', () => {
 </script>
 </body>
 </html>
+
 
 
 
