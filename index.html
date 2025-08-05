@@ -529,98 +529,62 @@
     }
     
     /* Galería de imágenes */
-    .galeria-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-    
-    .imagen-item {
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
-    position: relative;
-    /* Elimina la altura fija para que se adapte a las imágenes */
-    height: auto;
-    /* Agrega un aspecto de relación para mantener la forma cuadrada en todas las pantallas */
-    aspect-ratio: 16/9;
+   .galeria-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
 }
-    @media (max-width: 768px) {
-    .galeria-grid {
-        grid-template-columns: 1fr;
-    }
-    .imagen-item {
-        height: auto; /* Altura dinámica en móviles */
-        aspect-ratio: 16/9; /* Mantenemos el aspecto de la imagen en formato 16/9 */
-    }
+    
+.imagen-item {
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      position: relative;
+      height: auto; /* Altura automática para que la imagen no se corte */
+      aspect-ratio: 16 / 9; /* Mantiene la proporción de la imagen */
 }
-    
-    .imagen-item:hover {
-      transform: translateY(-5px);
-    }
-    
-    .imagen-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-    }
-    
-    .imagen-item:hover img {
-      transform: scale(1.05);
-    }
-    
-    .imagen-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    /* Fondo más oscuro y con más transparencia para que el texto resalte */
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0) 100%);
-    color: white;
-    padding: 1.5rem 1rem 1rem; /* Más espacio en la parte inferior */
-    text-align: center;
-    transform: translateY(100%);
-    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Nueva animación más suave */
+    
+.imagen-item:hover {
+      transform: translateY(-5px);
+}
+    
+.imagen-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+}
+    
+.imagen-item:hover img {
+      transform: scale(1.05);
+}
+    
+.imagen-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0) 100%);
+    padding: 1.5rem 1rem 1rem;
+    text-align: center;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Cuando el usuario pasa el mouse, la capa sube */
 .imagen-item:hover .imagen-overlay {
-    transform: translateY(0);
-}   
-    .imagen-placeholder {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-    }
-    
-    .imagen-placeholder span {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-    
-    .imagen-placeholder p {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin: 0;
-    }
-    
-  .imagen-overlay p {
+    transform: translateY(0);
+}   
+
+.imagen-overlay p {
     font-family: 'Inter', sans-serif;
     font-size: 1.2rem;
     font-weight: 700;
-    color: #ffffff; /* ¡Esto asegura que el texto sea blanco! */
+    color: #ffffff; /* ¡Aquí está la corrección! Ahora el texto se verá blanco */
     margin: 0;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-    }    
+}
     
     /* Contacto */
     #contacto {
@@ -1287,6 +1251,7 @@ window.addEventListener('scroll', () => {
 </script>
 </body>
 </html>
+
 
 
 
