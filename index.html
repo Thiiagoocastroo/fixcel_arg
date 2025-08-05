@@ -12,40 +12,23 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔧</text></svg>">
   <style> 
     /* Puedes usar esta clase para el botón o la que ya tenías */
-.toggle-suggestions-button {
-    display: block;
-    width: 100%;
-    padding: 1rem;
-    margin-top: 1.5rem;
-    background: #667eea; /* Color similar al de tu botón de enviar pregunta */
-    color: white;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background 0.3s ease;
+/* Este es el nuevo estilo unificado para los botones */
+.btn-principal {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  margin-top: 1.5rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease;
 }
 
-.toggle-suggestions-button:hover {
-    background: #505cbe;
-}
-
-    .load-more-button {
-    display: block;
-    width: 100%;
-    padding: 1rem;
-    margin-top: 1.5rem;
-    background: #667eea; /* Color similar al de tu botón de enviar pregunta */
-    color: white;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background 0.3s ease;
-}
-
-.load-more-button:hover {
-    background: #505cbe;
+.btn-principal:hover {
+  background: #505cbe;
 }
     
 .mobile-navbar {
@@ -1099,7 +1082,7 @@
 
     <form id="suggestion-form" class="suggestion-form">
         <textarea id="suggestion-input" placeholder="Escribe tu sugerencia aquí..." required></textarea>
-        <button type="submit">Enviar pregunta</button>
+        <button type="submit" class="btn-principal">Enviar pregunta</button>
     </form>
 
     <div id="suggestions-container" class="suggestions-container">
@@ -1283,3 +1266,4 @@
 </script>
 </body>
 </html>
+
