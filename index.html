@@ -936,10 +936,12 @@
 </head>
 <body>
  <nav id="mobile-navbar" class="mobile-navbar">
-    <a href="#quienes-somos">Quiénes somos</a>
-    <a href="#servicios">Servicios</a>
-    <a href="#galeria">Galería</a>
-    <a href="#certificados">Certificados</a>
+   <ul>
+    <li><a href="#quienes-somos">Quiénes somos</a></li>
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#galeria">Galería</a></li>
+    <li><a href="#certificado">Certificados</a></li>
+   </ul>
 </nav>
   <nav class="navbar">
   <div class="container">
@@ -1220,8 +1222,8 @@
 
     if (allSuggestions.length > RESPONSES_PER_PAGE) {
       const toggleButton = document.createElement('button');
-      toggleButton.classList.add('load-more-button');
-
+      toggleButton.classList.add('btn-principal');
+      
       if (displayedCount < allSuggestions.length) {
         toggleButton.textContent = 'Ver todas las respuestas';
         toggleButton.addEventListener('click', () => {
@@ -1253,17 +1255,18 @@
   });
 
   // 6. LÓGICA para la barra de navegación que aparece al hacer scroll
-  const navbar = document.getElementById('mobile-navbar');
-  const scrollThreshold = 100;
+const mobileNavbar = document.getElementById('mobile-navbar');
+const scrollThreshold = 100;
 
-  window.addEventListener('scroll', () => {
+window.addEventListener('scroll', () => {
     if (window.scrollY > scrollThreshold) {
-      navbar.classList.add('scrolled');
+        mobileNavbar.classList.add('scrolled');
     } else {
-      navbar.classList.remove('scrolled');
+        mobileNavbar.classList.remove('scrolled');
     }
-  });
+});
 </script>
 </body>
 </html>
+
 
