@@ -537,13 +537,25 @@
     }
     
     .imagen-item {
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
-      position: relative;
-      height: 200px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    position: relative;
+    /* Elimina la altura fija para que se adapte a las imágenes */
+    height: auto;
+    /* Agrega un aspecto de relación para mantener la forma cuadrada en todas las pantallas */
+    aspect-ratio: 16/9;
+}
+    @media (max-width: 768px) {
+    .galeria-grid {
+        grid-template-columns: 1fr;
     }
+    .imagen-item {
+        height: auto; /* Altura dinámica en móviles */
+        aspect-ratio: 16/9; /* Mantenemos el aspecto de la imagen en formato 16/9 */
+    }
+}
     
     .imagen-item:hover {
       transform: translateY(-5px);
@@ -605,33 +617,10 @@
     font-family: 'Inter', sans-serif;
     font-size: 1.2rem;
     font-weight: 700;
-    color: #ffffff; /* Texto blanco para máxima visibilidad */
+    color: #ffffff; /* ¡Esto asegura que el texto sea blanco! */
     margin: 0;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.8); /* Sombra más oscura para que resalte aún más */
-
-    /* Modificación para el contenedor de la imagen en móviles */
-.imagen-item {
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
-    position: relative;
-    /* Elimina la altura fija para que se adapte a las imágenes */
-    height: auto; 
-    /* Agrega un aspecto de relación para mantener la forma cuadrada en todas las pantallas */
-    aspect-ratio: 16/9;
-}
-
-/* Modificamos el responsive para que la imagen se adapte mejor */
-@media (max-width: 768px) {
-    .galeria-grid {
-        grid-template-columns: 1fr;
-    }
-    .imagen-item {
-        height: auto; /* Altura dinámica en móviles */
-        aspect-ratio: 16/9; /* Mantenemos el aspecto de la imagen en formato 16/9 */
-    }
-}
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+    }    
     
     /* Contacto */
     #contacto {
@@ -1299,6 +1288,7 @@ window.addEventListener('scroll', () => {
 </script>
 </body>
 </html>
+
 
 
 
