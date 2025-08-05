@@ -561,22 +561,23 @@
     }
     
     .imagen-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(transparent, rgba(0,0,0,0.8));
-      color: white;
-      padding: 1rem;
-      text-align: center;
-      transform: translateY(100%);
-      transition: transform 0.3s ease;
-    }
-    
-    .imagen-item:hover .imagen-overlay {
-      transform: translateY(0);
-    }
-    
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* Fondo más oscuro y con más transparencia para que el texto resalte */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0) 100%);
+    color: white;
+    padding: 1.5rem 1rem 1rem; /* Más espacio en la parte inferior */
+    text-align: center;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Nueva animación más suave */
+}
+
+/* Cuando el usuario pasa el mouse, la capa sube */
+.imagen-item:hover .imagen-overlay {
+    transform: translateY(0);
+}   
     .imagen-placeholder {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       height: 100%;
@@ -600,11 +601,13 @@
       margin: 0;
     }
     
-    .imagen-overlay p {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin: 0;
-    }
+   .imagen-overlay p {
+    font-family: 'Inter', sans-serif; /* Usamos la misma fuente del body */
+    font-size: 1.2rem; /* Tamaño de fuente más grande */
+    font-weight: 700; /* Negrita para que se vea mejor */
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Sombra de texto para que resalte más */
+}
     
     /* Contacto */
     #contacto {
@@ -1272,6 +1275,7 @@ window.addEventListener('scroll', () => {
 </script>
 </body>
 </html>
+
 
 
 
